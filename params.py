@@ -79,7 +79,7 @@ class ExtractParam:
 '''
 
 # 聚类数量 int
-CLUSTER_NUMS = 5
+CLUSTER_NUMS = 8
 
 # 万有引力常数值,float>0
 G = 1.2
@@ -91,7 +91,7 @@ MAX_ITER = 200
 ALPHA = 20
 
 # 初始粒子数目,int
-PATICALS_NUMS = 6
+PATICALS_NUMS = 20
 
 # top_k，在计算粒子加速度时使用排名前K的粒子计算合力,int
 K = 5

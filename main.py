@@ -19,6 +19,7 @@ def calculate_fitness_error(f1,f2):
     error=np.sqrt(error)
     return error
 
+#格式化日志输出
 def fitness_log(fitness):
     n=len(fitness)
     str_format=["{:8.4f}" for _ in range(n)]
@@ -82,6 +83,8 @@ def main():
 
         #根据最邻近原则更新聚类中心
         gsp.update_particals_by_label(particals,samples)
+        
+        #检查是否越界
         gsp.check_bound(max_bound,min_bound,particals)
 
         #更新万有引力系数
@@ -118,7 +121,7 @@ def main():
         return 
 
     print("Cluster result as follows:")
-    gsp.plot_cluster(original_data,samples,best_c)
+    gsp.plot_cluster(original_data,samples,best_c,scale=False) #scale为False，表示每个子图得坐标值范围可以不一致,True则为一致
     cdi=gsp.CDI(samples,best_c,label)
     print("the value of CDI is %.2f"%cdi)
 

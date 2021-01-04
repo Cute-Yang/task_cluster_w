@@ -7,3 +7,4 @@ my_learn
 split_data
 *.docx
 __pycache__
+*cluster_image

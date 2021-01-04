@@ -6,8 +6,8 @@ import random
 from matplotlib import pyplot as plt
 import time
 import os
-
-
+from color import color_list_v2 as color_list
+plt.figure(figsize=(10,5))
 class GSP:
     def __init__(self,cluster_nums,g_0,max_iter,alpha,paticals_nums,top_k,*args,**kwargs):
         '''
@@ -63,7 +63,7 @@ class GSP:
         eps=k*np.sqrt(L)*max_risk
         return eps
 
-    def intialize_particals(self,features,A,C):
+    def intialize_particals(self,features,A,C,seed=True):
         '''
         初始化粒子位置矩阵和速度矩阵
 
@@ -71,6 +71,7 @@ class GSP:
         features:提取的特征矩阵
         A:粒子数目
         C:聚类的类别数
+        seed:如果为True，设定随机种子，每次结果将一样 bool
 
         Returns:
         particals:粒子的位置矩阵
@@ -80,6 +81,8 @@ class GSP:
         s1,s2=features.shape
         particals=np.zeros(shape=(A,C,s2),dtype=np.float32)
         for i in range(A):
+            if seed:
+                np.random.seed(i) #随机种子,不需要请注释
             label=np.random.randint(1,C+1,s1) #随即指定类别
             for k in range(C):
                 mask=(label==k+1)
@@ -89,7 +92,7 @@ class GSP:
         return particals,velocity
 
 
-    def intialize_particals_v2(self,features,A,C):
+    def intialize_particals_v2(self,features,A,C,seed=True):
         '''
         初始化粒子位置矩阵和速度矩阵，和文档中不同，这里随即选择C个点作为初始聚类中心，和K-means的初始化类似
 
@@ -97,6 +100,7 @@ class GSP:
         features:提取的特征矩阵
         A:粒子数目
         C:聚类的类别数
+        seed:同上
 
         Returns:
         particals:粒子的位置矩阵
@@ -106,6 +110,8 @@ class GSP:
         
         particals=np.zeros(shape=(A,C,s2),dtype=np.float32)
         for i in range(A):
+            if seed:
+                np.random.seed(i)#随机种子，不需要清注释
             random_center_index=np.random.randint(0,s1,size=(C,)) #随即生成C个介于0~s2之间的样本下标，作为初始聚类中心
             center=features[random_center_index,]
             particals[i,]=center
@@ -338,15 +344,15 @@ class GSP:
             cluster_distance+=dk
         return np.sqrt(cluster_distance)/center_distance
 
-    def plot_cluster(self,original_data,samples,centers):
+    def plot_cluster(self,original_data,samples,centers,scale=True):
         '''
         绘制聚类图,默认保存在image目录下
         original_data:原始数据
         samples:特征矩阵
         centers:聚类中心
-        row:行
-        col:列
+        scale:子图比例是否一致
         '''
+
         label=self.solve_label_by_center(centers,samples)
         #original_data=(original_data-np.min(original_data,axis=1,keepdims=True))/(np.max(original_data,axis=1,keepdims=True)-np.min(original_data,axis=1,keepdims=True))
         C=centers.shape[0]
@@ -363,12 +369,19 @@ class GSP:
             print("the %d-th cluster has %d sample!"%(i+1,k_original.shape[0]))
             print("-"*50)
             plt.xlim((0,35))
-            # for data in k_original:
-            #     print(data)
-            #     plt.plot(x_axes,data)
-            plt.plot(k_original.T)
+            if scale:
+                plt.ylim((0,np.max(original_data*1.2)))
+            else:
+                plt.ylim((0,np.max(k_original*1.2)))
+                
+            n=len(k_original)
+            for index in range(n):
+                data=k_original[index]
+                plt.plot(data,"r-o",linewidth=1,markersize=2,c=color_list[index])
+            # plt.plot(k_original.T,"r-o",linewidth=1,markersize=2)
         if not os.path.exists("image"):
             os.mkdir("image")
         image_name="image/%s.jpg"%(int(time.time()))
-        plt.savefig(image_name)
+        plt.tight_layout()
+        plt.savefig(image_name,dpi=800)
         plt.show()
