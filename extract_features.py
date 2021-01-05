@@ -21,10 +21,10 @@ def write_csv():
     current_time=datetime.datetime.now()
     if not os.path.exists("features"):
         os.mkdir("features")
-    features_file="features/%s_%s_%s_%s:%s:%s.csv"%(current_time.year,current_time.month,\
+    features_file="features/%s_%s_%s_%s_%s_%s.csv"%(current_time.year,current_time.month,\
         current_time.day,current_time.hour,current_time.minute,current_time.second)
 
-    original_data_file="area_data/%s_%s_%s_%s:%s:%s.csv"%(current_time.year,current_time.month,\
+    original_data_file="area_data/%s_%s_%s_%s_%s_%s.csv"%(current_time.year,current_time.month,\
         current_time.day,current_time.hour,current_time.minute,current_time.second)
 
     with open("features/checkpoint.json","w") as f:
