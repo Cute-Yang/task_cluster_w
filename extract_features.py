@@ -209,7 +209,14 @@ def extract_season_corr_v2(file_path:str,spring_interval=spring_interval,\
     # 0.5  0.3   0.1  1.0
     return seasons_corr
 
+def extract_mean(file_path):
+    with open(file_path,"r",encoding="utf-8") as f:
+        original_data=np.loadtxt(f,delimiter=",",skiprows=1,dtype=np.float32,usecols=list(range(28)))
+    
+    value=original_data[:,3:]
+    return np.mean(value)
 
+    
 
 def extract_features(root_data="split_data",year="2015"):
     '''
@@ -227,11 +234,12 @@ def extract_features(root_data="split_data",year="2015"):
         f1,f2,f3=extract_stage(data_path)
         stddev=extract_stddev(data_path)
         season_corr=extract_season_corr(data_path)
-        data=[f1,f2,f3,stddev,season_corr]
+        mean_value=extract_mean(data_path)
+        data=[f1,f2,f3,stddev,season_corr,mean_value]
         features.append(data)
         area_data=extract_samples(data_path)
         original_data.append(area_data)
-
+    
     features=np.array(features)
     mask=np.where(~np.isnan(features).any(axis=1)) 
 

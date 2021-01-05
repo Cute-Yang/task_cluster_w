@@ -8,3 +8,5 @@ split_data
 *.docx
 __pycache__
 *cluster_image
+sun
+*.zip
