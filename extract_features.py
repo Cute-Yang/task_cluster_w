@@ -211,7 +211,7 @@ def extract_season_corr_v2(file_path:str,spring_interval=spring_interval,\
 
 def extract_mean(file_path):
     with open(file_path,"r",encoding="utf-8") as f:
-        original_data=np.loadtxt(f,delimiter=",",skiprows=1,dtype=np.float32,usecols=list(range(28)))
+        original_data=np.loadtxt(f,delimiter=",",skiprows=1,dtype=np.float32)
     
     value=original_data[:,3:]
     return np.mean(value)
