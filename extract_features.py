@@ -18,6 +18,8 @@ def write_csv():
     '''
     返回每次的保存的文件路径，并在检查点文件中记录最近的一次保存结果
     '''
+    if not os.path.exists("area_data"):
+        os.mkdir("area_data")
     current_time=datetime.datetime.now()
     if not os.path.exists("features"):
         os.mkdir("features")

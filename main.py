@@ -61,7 +61,7 @@ def main():
     original_data=read_original_data(original_dir="area_data")
     original_data=original_data[:,1:]
     
-    particals,velocity=gsp.intialize_particals_v2(samples,A=gsp.paticals_nums,C=gsp.cluster_nums)
+    particals,velocity=gsp.intialize_particals_v2(samples,A=gsp.paticals_nums,C=gsp.cluster_nums,seed=False)
 
     print(log_head)
     print("Score as follows:")

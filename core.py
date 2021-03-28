@@ -109,10 +109,14 @@ class GSP:
         s1,s2=features.shape
         
         particals=np.zeros(shape=(A,C,s2),dtype=np.float32)
+        # rows=features.shape[0]
+        step=s1//(C+1)
         for i in range(A):
             if seed:
                 np.random.seed(i)#随机种子，不需要清注释
-            random_center_index=np.random.randint(0,s1,size=(C,)) #随即生成C个介于0~s2之间的样本下标，作为初始聚类中心
+            # random_center_index=np.random.randint(0,s1,size=(C,)) #随即生成C个介于0~s2之间的样本下标，作为初始聚类中心
+            start_index=np.random.randint(0,C)
+            random_center_index=[start_index + item*step for item in range(C)]
             center=features[random_center_index,]
             particals[i,]=center
         velocity=np.zeros(shape=(A,C,s2),dtype=np.float32) #初始化速度为0

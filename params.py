@@ -1,3 +1,4 @@
+import os
 '''
 程序中用到的参数，可以统一在这里修改
 '''
@@ -10,8 +11,13 @@
 ORIGEINAL_FIEL_PATH = "data/data.csv"
 
 # 目标文件路径
-DEST_DATA_FORMAT = "data_handled/handled_data-%03d-of-200.csv"
+DEST_DATA_FORMAT = "handled_data/handled_data-%03d-of-200.csv"
+parent_dir=DEST_DATA_FORMAT.split("/")[0]
+if not os.path.exists(parent_dir):
+    os.mkdir(parent_dir)
+    print("Creating directory %s"%parent_dir)
 
+    
 # 是否忽略第一行
 IGNORE_HEAD = True
 
@@ -34,7 +40,9 @@ MISSING_FLAG = "NA"
 SAVE_LOG = True
 
 LOG_PATH = "logs"
-
+if not os.path.exists(LOG_PATH):
+    os.mkdir(LOG_PATH)
+    print("Creating directory %s"%LOG_PATH)
 
 class PreprocessParam:
     def __init__(self):

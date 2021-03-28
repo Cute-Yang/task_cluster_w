@@ -10,3 +10,5 @@ __pycache__
 *cluster_image
 sun
 *.zip
+features
+split_data
